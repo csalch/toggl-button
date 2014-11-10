@@ -2,15 +2,20 @@
 /*global $: false, document: false, togglbutton: false*/
 'use strict';
 
-togglbutton.render('#tickets-show .sidebar > div > div.ticket-info',
+togglbutton.render('#header .top-space',
   {observe: false}, function (elem) {
 
-    var link, container,
-      description, title, number;
+    var link, description, title, number, innerText;
 
-    description = $('.ticket-body > .top-ticket_details > .ticket-summary h1').innerText;
-    title = $('#logo h1').innerText;
-    number = $('.ticket-number').innerText;
+    // Safely extract innerText or return a '' when not available
+    innerText = function assembla_innerText(selector) {
+      var str = $(selector);
+      return str && str.innerText ? str.innerText : '';
+    };
+
+    description = innerText('.ticket-body > .top-ticket_details > .ticket-summary h1');
+    title = innerText('#logo h1');
+    number = innerText('.ticket-number');
 
     link = togglbutton.createTimerLink({
       className: 'assembla',
@@ -18,9 +23,5 @@ togglbutton.render('#tickets-show .sidebar > div > div.ticket-info',
       projectName: title
     });
 
-    container = document.createElement('div');
-    container.setAttribute('style', 'float:left;');
-    container.appendChild(link);
-
-    elem.insertAdjacentElement('beforeBegin', container);
+    elem.insertAdjacentElement('afterBegin', link);
   });
