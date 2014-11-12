@@ -2,10 +2,11 @@
 /*global $: false, document: false, togglbutton: false*/
 'use strict';
 
-togglbutton.render('#header .top-space',
+//togglbutton.render('#header .top-space',
+togglbutton.render('#main-menu',
   {observe: false}, function (elem) {
 
-    var link, description, title, number, innerText;
+    var link, description, title, number, innerText, container;
 
     // Safely extract innerText or return a '' when not available
     innerText = function assembla_innerText(selector) {
@@ -23,5 +24,10 @@ togglbutton.render('#header .top-space',
       projectName: title
     });
 
-    elem.insertAdjacentElement('afterBegin', link);
+    container = document.createElement('li');
+    container.setAttribute('class', 'tab');
+    container.appendChild(link);
+
+    //elem.insertAdjacentElement('beforeBegin', container);
+    elem.appendChild(container);
   });
